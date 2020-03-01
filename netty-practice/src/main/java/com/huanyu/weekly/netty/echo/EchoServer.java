@@ -1,12 +1,12 @@
 package com.huanyu.weekly.netty.echo;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 import java.net.InetSocketAddress;
 
@@ -31,18 +31,23 @@ public class EchoServer {
     private void start() throws InterruptedException {
         // 不会改变的类，使用final修饰
         final EchoServerHandler serverHandler = new EchoServerHandler();
-        EventLoopGroup group = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap b = new ServerBootstrap();
         try {
-            b.group(group) // 设置ServerBootstrap要用的EventLoopGroup。这个EventLoopGroup将用于ServerChannel和被接受的子 Channel 的 I/O 处理
+            b.group(bossGroup, workerGroup) // bossGroup将用于ServerChannel, workerGroup用于被接受的子 Channel 的 I/O 处理
                 .channel(NioServerSocketChannel.class) // 设置将要被实例化的 ServerChannel类。如果该实现类 没提供默认的构造函数，可以通过调用channel Factory()方法来指定一个工厂类，它将会被bind()方 法调用
+                .option(ChannelOption.SO_BACKLOG, 100)
+                .handler(new LoggingHandler(LogLevel.INFO))
                 .localAddress(new InetSocketAddress(port)) // 指定 Channel 应该绑定到的本地地址。如果没有指定， 则将由操作系统创建一个随机的地址。或者，也可以通过 bind()或者 connect()方法指定 localAddress
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     // 当一个新的连接被接受时，一个新的子Channel将会被创建。
                     // ChannelInitializer会把serverHandler添加到该channel的ChannelPipeline中
                     @Override
                     protected void initChannel(SocketChannel socketChannel) {
-                        socketChannel.pipeline().addLast(serverHandler);
+                        ChannelPipeline p = socketChannel.pipeline();
+                        p.addLast(new LoggingHandler(LogLevel.INFO));
+                        p.addLast(serverHandler);
                     }
                 }); // 设置将被添加到 ChannelPipeline 以接收事件通知的 ChannelHandler
             // 异步地绑定服务器，调用sync方法阻塞等待直到绑定完成
@@ -50,7 +55,8 @@ public class EchoServer {
             // 获取channel的closeFuture, 并阻塞当前线程直到它完成
             f.channel().closeFuture().sync();
         } finally {
-            group.shutdownGracefully().sync();
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
         }
 
     }
