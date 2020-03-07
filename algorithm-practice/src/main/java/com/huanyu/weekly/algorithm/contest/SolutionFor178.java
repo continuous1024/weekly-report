@@ -168,6 +168,7 @@ public class SolutionFor178 {
         return result;
     }
 
+    // 使网格图至少有一条有效路径的最小代价
     public static class Position {
         private Integer x;
         private Integer y;
@@ -200,7 +201,6 @@ public class SolutionFor178 {
         }
     }
 
-    // 使网格图至少有一条有效路径的最小代价
     public Set<Position> step(int x, int y, int[][] grid, boolean[][] mp) {
         Set<Position> positions = new HashSet<>();
         int row = grid.length;

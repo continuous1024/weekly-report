@@ -45,7 +45,7 @@ public class EchoServer {
                     // ChannelInitializer会把serverHandler添加到该channel的ChannelPipeline中
                     @Override
                     protected void initChannel(SocketChannel socketChannel) {
-                        ChannelPipeline p = socketChannel.pipeline();
+                        ChannelPipeline p = socketChannel .pipeline();
                         p.addLast(new LoggingHandler(LogLevel.INFO));
                         p.addLast(serverHandler);
                     }

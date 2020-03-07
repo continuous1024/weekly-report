@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.huanyu.weekly;
+
+option java_package = "com.huanyu.weekly.netty.im.protocol";
+option java_outer_classname = "ImResponseProto";
+
+message ImResponse {
+    int64 responseId = 2;
+    string responseMessage = 1;
+    int32 type = 3;
+}
