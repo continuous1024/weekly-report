@@ -14,7 +14,7 @@
 ## Java并发梳理
 - [ ] 模块名称: concurrency
 <br/>[Java并发基础知识整理](https://www.toutiao.com/i6797723046980354573/)
-<br/>[Java并发中级知识整理]()
+<br/>[Java并发中级知识整理](https://www.toutiao.com/i6802033341517267467/)
 ## Spring源码梳理
 - [ ] 模块名称: spring
 ## SkyWalking实战
@@ -23,8 +23,14 @@
 - [ ] 模块名称: spring-cloud-practice
 ## Redis实战梳理
 - [ ] 模块名称: redis-practice
+<br/>[Redis基础知识整理]
+<br/>
 ## mysql梳理
 - [ ] 模块名称: mysql-practice
+<br/>[MySQL基础知识整理]
+<br/>[数据库连接池]
+<br/>[Mybatis源码]
+<br/>[分库分表]
 ## 消息队列实战
 - [ ] 模块名称: mq-practice
 ## 注册中心实战
