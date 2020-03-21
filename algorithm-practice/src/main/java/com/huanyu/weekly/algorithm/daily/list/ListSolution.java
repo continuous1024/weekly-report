@@ -10,6 +10,11 @@ public class ListSolution {
         }
     }
 
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
     ListNode head;
 
     public void createList(int a) {
@@ -25,8 +30,38 @@ public class ListSolution {
         p.next = new ListNode(a);
     }
 
-    // 迭代反转单链表
+
+
     public ListNode reverseList(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode p = head;
+        int w = 1;
+        while (p.next != null) {
+            p = p.next;
+            w++;
+        }
+
+        for (int i=0, middle=w>>1, j=w-1; i<middle; i++, j--) {
+            ListNode left = head;
+            for (int m = 0; m < i; m++) {
+                left = left.next;
+            }
+
+            ListNode right = head;
+            for (int n = 0; n < j; n++) {
+                right = right.next;
+            }
+            int rightVal = right.val;
+            right.val = left.val;
+            left.val = rightVal;
+        }
+        return head;
+    }
+
+    // 迭代反转单链表
+    public ListNode reverseList3(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -94,10 +129,8 @@ public class ListSolution {
         ListSolution listSolution = new ListSolution();
         listSolution.createList(1);
         listSolution.createList(2);
-        listSolution.createList(3);
-        listSolution.createList(4);
         listSolution.print(listSolution.head);
-        ListNode head = listSolution.reverseList2(listSolution.head);
+        ListNode head = listSolution.reverseList(listSolution.head);
         System.out.println("Reverse List: ");
         listSolution.print(head);
     }

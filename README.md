@@ -24,7 +24,6 @@
 ## Redis实战梳理
 - [ ] 模块名称: redis-practice
 <br/>[Redis基础知识整理]
-<br/>
 ## mysql梳理
 - [ ] 模块名称: mysql-practice
 <br/>[MySQL基础知识整理]
