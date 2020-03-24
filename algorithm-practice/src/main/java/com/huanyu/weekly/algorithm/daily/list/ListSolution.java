@@ -10,6 +10,25 @@ public class ListSolution {
         }
     }
 
+    // 使用递归来合并
+    public ListNode mergeTwoListsUse(ListNode l1, ListNode l2) {
+        ListNode newHead = null;
+        if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
+        } else {
+            if (l1.val > l2.val) {
+                newHead = l2;
+                newHead.next = mergeTwoListsUse(l1, l2.next);
+            } else {
+                newHead = l1;
+                newHead.next = mergeTwoListsUse(l1.next, l2);
+            }
+            return newHead;
+        }
+    }
+
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode p = l1;
         ListNode q = l2;
