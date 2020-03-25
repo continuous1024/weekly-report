@@ -10,6 +10,56 @@ public class ListSolution {
         }
     }
 
+    public void isPalindrome2(ListNode head) {
+        // 更好的解决方案，获取总长度，找到中间节点，分成两半，然后把前一变的节点给反转，然后循环判断前后两串是否一样。
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        int w = 0;
+        ListNode m = head;
+        while (m != null) {
+            m = m.next;
+            w++;
+        }
+
+        if (w <= 1) {
+            return true;
+        }
+
+        int i, j = 0;
+        if (w % 2 == 1) {
+            j = w / 2 + 2;
+        } else {
+            j = w / 2 + 1;
+        }
+        i = w / 2;
+        return isPalindrome(head, i, j, w);
+    }
+
+    public boolean isPalindrome(ListNode head, int i, int j, int w) {
+        ListNode p = head;
+        ListNode q = head;
+        for (int a = 1; a < i; a++) {
+            p = p.next;
+        }
+
+        for (int b = 1; b < j; b++) {
+            q = q.next;
+        }
+
+        if (p.val == q.val) {
+            if (i == 1 && j == w) {
+                return true;
+            } else {
+                i--;
+                j++;
+            }
+            return isPalindrome(head, i, j, w);
+        } else {
+            return false;
+        }
+    }
+
     // 使用递归来合并
     public ListNode mergeTwoListsUse(ListNode l1, ListNode l2) {
         ListNode newHead = null;
@@ -233,13 +283,9 @@ public class ListSolution {
     public static void main(String[] args) {
         ListSolution listSolution = new ListSolution();
         listSolution.createList(1);
-        listSolution.createList(2);
-        listSolution.createList(4);
-        ListSolution listSolution2 = new ListSolution();
-        listSolution2.createList(1);
-        listSolution2.createList(3);
-        listSolution2.createList(4);
-        ListNode head = listSolution.mergeTwoLists(listSolution.head, listSolution2.head);
-        listSolution.print(head);
+        listSolution.createList(0);
+        listSolution.createList(1);
+        Boolean result = listSolution.isPalindrome(listSolution.head);
+        System.out.println(result);
     }
 }
