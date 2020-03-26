@@ -10,6 +10,46 @@ public class ListSolution {
         }
     }
 
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasCycle2(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        if (head.next == head) {
+            return true;
+        }
+
+        ListNode p = head;
+        while (p.next != null) {
+            ListNode q = head;
+            if (p.next == q) {
+                return true;
+            }
+
+            while (q != p) {
+                q = q.next;
+                if (p.next == q) {
+                    return true;
+                }
+            }
+            p = p.next;
+        }
+
+        return false;
+    }
+
     public void isPalindrome2(ListNode head) {
         // 更好的解决方案，获取总长度，找到中间节点，分成两半，然后把前一变的节点给反转，然后循环判断前后两串是否一样。
     }

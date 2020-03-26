@@ -23,7 +23,7 @@
 - [ ] 模块名称: spring-cloud-practice
 ## Redis实战梳理
 - [ ] 模块名称: redis-practice
-<br/>[Redis基础知识整理]
+<br/>[Redis基础知识整理](https://www.toutiao.com/i6803327103145083403/)
 ## mysql梳理
 - [ ] 模块名称: mysql-practice
 <br/>[MySQL基础知识整理]
