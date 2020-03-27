@@ -24,14 +24,18 @@
 ## Redis实战梳理
 - [ ] 模块名称: redis-practice
 <br/>[Redis基础知识整理](https://www.toutiao.com/i6803327103145083403/)
-## mysql梳理
+## MySQL实战梳理
 - [ ] 模块名称: mysql-practice
 <br/>[MySQL基础知识整理]
 <br/>[数据库连接池]
 <br/>[Mybatis源码]
 <br/>[分库分表]
+## MongoDB实战梳理
+- [ ] 模块名称: mongodb-practice
 ## 消息队列实战
 - [ ] 模块名称: mq-practice
+## ElasticSearch实战梳理
+- [ ] 模块名称: elasticsearch-practice
 ## 注册中心实战
 - [ ] 模块名称: registry-practice
 ## 配置中心实战
