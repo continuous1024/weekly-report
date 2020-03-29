@@ -13,3 +13,7 @@
 - [合并两个有序链表](https://www.toutiao.com/i6807584336703914499/)
 - [回文链表](https://www.toutiao.com/i6808024343902159372/)
 - [环形链表](https://www.toutiao.com/i6808442471421313548/)
+### 二叉树相关算法
+- [二叉树的最大深度](https://www.toutiao.com/i6808798912267158027/)
+- [验证二叉搜索树](https://www.toutiao.com/i6809221437497278988/)
+- [对称二叉树](https://www.toutiao.com/i6809559740499100167/)
