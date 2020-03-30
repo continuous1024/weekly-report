@@ -1,5 +1,8 @@
 package com.huanyu.weekly.algorithm.daily.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TreeSolution {
     // Definition for a binary tree node.
     public class TreeNode {
@@ -7,6 +10,25 @@ public class TreeSolution {
       TreeNode left;
       TreeNode right;
       TreeNode(int x) { val = x; }
+    }
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        return levelOrder(0, root, result);
+    }
+
+    public List<List<Integer>> levelOrder(int level, TreeNode root, List<List<Integer>> result) {
+        if (root != null) {
+            if (level == result.size()) {
+                result.add(new ArrayList<>());
+            }
+
+            result.get(level).add(root.val);
+            levelOrder(level+1, root.left, result);
+            levelOrder(level+1, root.right, result);
+        }
+
+        return result;
     }
 
     public boolean isSymmetric(TreeNode root) {
