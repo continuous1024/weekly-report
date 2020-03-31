@@ -12,6 +12,26 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return sortedArrayToBST(nums, 0, nums.length-1);
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums, int start, int end) {
+        if (end < start) return null;
+        int middle = start + (end - start) / 2;
+        TreeNode root = new TreeNode(nums[middle]);
+        root.left = sortedArrayToBST(nums, start, middle - 1);
+        root.right = sortedArrayToBST(nums, middle + 1, end);
+        return root;
+    }
+
+
+    public static void main(String[] args) {
+        TreeSolution treeSolution = new TreeSolution();
+        int[] nums = new int[]{1, 2, 3};
+        System.out.println(nums.length / 2);
+    }
+
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
         return levelOrder(0, root, result);
