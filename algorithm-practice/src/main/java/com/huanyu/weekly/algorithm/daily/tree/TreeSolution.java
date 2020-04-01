@@ -1,6 +1,7 @@
 package com.huanyu.weekly.algorithm.daily.tree;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TreeSolution {
@@ -10,6 +11,36 @@ public class TreeSolution {
       TreeNode left;
       TreeNode right;
       TreeNode(int x) { val = x; }
+    }
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        result.addAll(inorderTraversal(root.left));
+        result.add(root.val);
+        result.addAll(inorderTraversal(root.right));
+        return result;
+    }
+
+    public List<Integer> inorderTraversalByIteration(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        LinkedList<TreeNode> linkedStack = new LinkedList<>();
+        TreeNode t = root;
+        while (t != null || !linkedStack.isEmpty()) {
+            while (t != null) {
+                linkedStack.push(t);
+                t = t.left;
+            }
+            if (!linkedStack.isEmpty()) {
+                t = linkedStack.pop();
+                result.add(t.val);
+                t = t.right;
+            }
+        }
+
+        return result;
     }
 
     public TreeNode sortedArrayToBST(int[] nums) {
@@ -25,11 +56,12 @@ public class TreeSolution {
         return root;
     }
 
-
     public static void main(String[] args) {
         TreeSolution treeSolution = new TreeSolution();
-        int[] nums = new int[]{1, 2, 3};
-        System.out.println(nums.length / 2);
+        int[] nums = new int[]{-10,-3,0,5,9};
+        TreeNode root = treeSolution.sortedArrayToBST(nums);
+        List<Integer> result = treeSolution.inorderTraversal(root);
+        System.out.println(result);
     }
 
     public List<List<Integer>> levelOrder(TreeNode root) {
@@ -64,11 +96,11 @@ public class TreeSolution {
             return true;
         }
 
-        if (!(left != null && right != null && left.val == right.val)) {
+        if (left == null || right == null) {
             return false;
         }
 
-        return isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left);
+        return left.val == right.val && isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left);
     }
 
     public boolean isValidBST(TreeNode root) {
