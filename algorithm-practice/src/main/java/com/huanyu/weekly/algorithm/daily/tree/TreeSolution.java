@@ -13,6 +13,44 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        zigzagLevelOrder(root, result, 0);
+        for (int i = 0; i < result.size(); i++) {
+            if (i % 2 != 0) {
+                result.set(i, reverseList(result.get(i)));
+            }
+        }
+        return result;
+    }
+
+    private List<Integer> reverseList(List<Integer> list) {
+        if (list == null) {
+            return null;
+        }
+        int len = list.size();
+        for (int i = 0, j = len - 1; i < len>>1; i++, j--) {
+            Integer tmp = list.get(i);
+            list.set(i, list.get(j));
+            list.set(j, tmp);
+        }
+        return list;
+    }
+
+    public void zigzagLevelOrder(TreeNode root, List<List<Integer>> result, int level) {
+        if (root == null) {
+            return;
+        }
+
+        if (level == result.size()) {
+            result.add(new ArrayList<>());
+        }
+
+        result.get(level).add(root.val);
+        zigzagLevelOrder(root.left, result, level+1);
+        zigzagLevelOrder(root.right, result, level+1);
+    }
+
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         if (root == null) {
