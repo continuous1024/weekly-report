@@ -13,6 +13,28 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return buildTree(0, 0, inorder.length-1, preorder, inorder);
+    }
+
+    private TreeNode buildTree(int preStart, int inStart, int inEnd, int[] preorder, int[] inorder) {
+        if (preStart >= inorder.length || inStart > inEnd) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int index = 0;
+        for (int i = inStart; i <= inEnd; i++) {
+            if (inorder[i] == preorder[preStart]) {
+                index = i;
+                break;
+            }
+        }
+        root.left = buildTree(preStart + 1, inStart, index - 1, preorder, inorder);
+        root.right = buildTree(preStart + 1 + index - inStart, index + 1, inEnd, preorder, inorder);
+        return root;
+    }
+
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
         zigzagLevelOrder(root, result, 0);
