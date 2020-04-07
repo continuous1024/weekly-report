@@ -13,6 +13,56 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public int kthSmallestScan(TreeNode root, int k) {
+        List<Integer> nodeList = new ArrayList<>();
+        inorderTraverse(root, nodeList);
+        int i = 1;
+        for (Integer value : nodeList) {
+            if (i == k) {
+                return value;
+            }
+            i++;
+        }
+        return 0;
+    }
+
+    public void inorderTraverse(TreeNode root, List<Integer> nodeList) {
+        if (root == null) return;
+        inorderTraverse(root.left, nodeList);
+        nodeList.add(root.val);
+        inorderTraverse(root.right, nodeList);
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        TreeNode node = kthSmallestNode(root, k);
+        if (node == null) {
+            return 0;
+        }
+        return node.val;
+    }
+
+    public TreeNode kthSmallestNode(TreeNode root, int k) {
+        if (root == null) {
+            return null;
+        }
+
+        int leftCount = getLeftCount(root.left) + 1;
+        if (k < leftCount) {
+            return kthSmallestNode(root.left, k);
+        } else if (k > leftCount) {
+            return kthSmallestNode(root.right, k - leftCount);
+        } else {
+            return root;
+        }
+    }
+
+    public int getLeftCount(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return getLeftCount(root.left) + getLeftCount(root.right) + 1;
+    }
+
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         return buildTree(0, 0, inorder.length-1, preorder, inorder);
     }
@@ -192,5 +242,38 @@ public class TreeSolution {
             return maxLeft;
         }
         return maxRight;
+    }
+
+    class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node next;
+
+        public Node() {}
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, Node _left, Node _right, Node _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    };
+
+    public Node connect(Node root) {
+        if (root == null || root.left == null) {
+            return root;
+        }
+        root.left.next = root.right;
+        if (root.next != null) {
+            root.right.next = root.next.left;
+        }
+        connect(root.left);
+        connect(root.right);
+        return root;
     }
 }
