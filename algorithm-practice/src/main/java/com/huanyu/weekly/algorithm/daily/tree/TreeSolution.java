@@ -13,6 +13,31 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        int leftMaxHeight = maxHeight(root.left);
+        int rightMaxHeight = maxHeight(root.right);
+        int result = leftMaxHeight - rightMaxHeight;
+        return ((result >= 0 && result <= 1) || (result == -1))
+                && isBalanced(root.left) && isBalanced(root.right);
+    }
+
+    public int maxHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftHeight = maxHeight(root.left) + 1;
+        int rightHeight = maxHeight(root.right) + 1;
+        if (leftHeight > rightHeight) {
+            return leftHeight;
+        }
+        return rightHeight;
+    }
+
     public int kthSmallestScan(TreeNode root, int k) {
         List<Integer> nodeList = new ArrayList<>();
         inorderTraverse(root, nodeList);

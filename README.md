@@ -26,7 +26,7 @@
 <br/>[Redis基础知识整理](https://www.toutiao.com/i6803327103145083403/)
 ## MySQL实战梳理
 - [ ] 模块名称: mysql-practice
-<br/>[MySQL基础知识整理]
+<br/>[MySQL基础知识整理](https://www.toutiao.com/i6797639965397221895/)
 <br/>[数据库连接池]
 <br/>[Mybatis源码]
 <br/>[分库分表]
