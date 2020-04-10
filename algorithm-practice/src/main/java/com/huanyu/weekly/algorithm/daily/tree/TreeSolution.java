@@ -5,12 +5,95 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TreeSolution {
+    // Definition for singly-linked list.
+    public class ListNode {
+       int val;
+       ListNode next;
+       ListNode(int x) { val = x; }
+    }
     // Definition for a binary tree node.
     public class TreeNode {
       int val;
       TreeNode left;
       TreeNode right;
       TreeNode(int x) { val = x; }
+    }
+
+    // 从上往下的视角
+    public TreeNode invertTreeTop(TreeNode root) {
+        if (root == null) return null;
+        TreeNode right = root.right;
+        root.right = invertTreeTop(root.left);
+        root.left = invertTreeTop(right);
+        return root;
+    }
+
+    // 从下往上的视角
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+        TreeNode left = invertTree(root.left);
+        TreeNode right = invertTree(root.right);
+        TreeNode temp = left;
+        root.left = right;
+        root.right = temp;
+        return root;
+    }
+
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        if (t1 == null && t2 == null) {
+            return null;
+        }
+        int val = 0;
+        if (t1 != null) {
+            val += t1.val;
+        }
+
+        if (t2 != null) {
+            val += t2.val;
+        }
+
+        TreeNode newT = new TreeNode(val);
+        newT.left = mergeTrees(t1 != null ? t1.left : null, t2 != null ? t2.left : null);
+        newT.right = mergeTrees(t1 != null ? t1.right : null, t2 != null ? t2.right : null);
+        return newT;
+    }
+
+    public boolean match(ListNode head, TreeNode root) {
+        boolean result = false;
+        if (root != null && root.val == head.val) {
+            if (head.next == null) {
+                return true;
+            }
+
+            result = match(head.next, root.left);
+            if (!result) {
+                result = match(head.next, root.right);
+            }
+        }
+
+        return result;
+    }
+
+    public boolean isSubPath(ListNode head, TreeNode root) {
+        boolean result = false;
+        if (root.val == head.val) {
+            result = match(head, root);
+            if (result) {
+                return true;
+            }
+        }
+
+        if (root.left != null) {
+            result = isSubPath(head, root.left);
+            if (result) {
+                return true;
+            }
+        }
+
+        if (root.right != null) {
+            result = isSubPath(head, root.right);
+        }
+        return result;
     }
 
     public boolean isBalanced(TreeNode root) {
