@@ -19,6 +19,45 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public int findTilt(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftSum = getSum(root.left);
+        int rightSum = getSum(root.right);
+        int val = leftSum - rightSum;
+        if (val < 0) {
+            val = -val;
+        }
+        return val + findTilt(root.left) + findTilt(root.right);
+    }
+
+    public int getSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        return root.val + getSum(root.left) + getSum(root.right);
+    }
+
+    public boolean isUnivalTree(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isUnivalTree(root, root.val);
+    }
+
+    public boolean isUnivalTree(TreeNode root, int val) {
+        if (root == null) {
+            return true;
+        }
+
+        return root.val == val
+                && isUnivalTree(root.left, val)
+                && isUnivalTree(root.right, val);
+    }
+
     // 从上往下的视角
     public TreeNode invertTreeTop(TreeNode root) {
         if (root == null) return null;
