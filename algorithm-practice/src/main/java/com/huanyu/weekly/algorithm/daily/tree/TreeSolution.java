@@ -1,8 +1,6 @@
 package com.huanyu.weekly.algorithm.daily.tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class TreeSolution {
     // Definition for singly-linked list.
@@ -17,6 +15,108 @@ public class TreeSolution {
       TreeNode left;
       TreeNode right;
       TreeNode(int x) { val = x; }
+    }
+
+    public TreeNode trimBSTOfficial(TreeNode root, int L, int R) {
+        if (root == null) {
+            return root;
+        }
+
+        if (root.val > R) {
+            return trimBSTOfficial(root.left, L, R);
+        }
+
+        if (root.val < L) {
+            return trimBSTOfficial(root.right, L, R);
+        }
+
+        root.left = trimBSTOfficial(root.left, L, R);
+        root.right = trimBSTOfficial(root.right, L, R);
+        return root;
+    }
+
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if (root == null) {
+            return root;
+        }
+
+        if (root.val < L || root.val > R) {
+            if (root.right != null) {
+                TreeNode left = root.left;
+                if (left != null) {
+                    TreeNode t = root.right;
+                    while(t.left != null) {
+                        t = t.left;
+                    }
+                    t.left = left;
+                }
+                root = root.right;
+            } else {
+                root = root.left;
+            }
+            root = trimBST(root, L, R);
+        } else {
+            root.left = trimBST(root.left, L, R);
+            root.right = trimBST(root.right, L, R);
+        }
+        return root;
+    }
+
+    public boolean isCousinsMap(TreeNode root, int x, int y) {
+        Map<Integer, Integer> deptMap = new HashMap<>();
+        Map<Integer, TreeNode> parentMap = new HashMap<>();
+        dfs(root, null, deptMap, parentMap);
+        return deptMap.get(x).equals(deptMap.get(y))
+                && parentMap.get(x) != parentMap.get(y);
+    }
+
+    public void dfs(TreeNode root, TreeNode parent, Map<Integer, Integer> deptMap, Map<Integer, TreeNode> parentMap) {
+        if (root == null) {
+            return;
+        }
+
+        deptMap.put(root.val, parent == null ? 0 : deptMap.get(parent.val) + 1);
+        parentMap.put(root.val, parent);
+        dfs(root.left, root, deptMap, parentMap);
+        dfs(root.right, root, deptMap, parentMap);
+    }
+
+    public static class CousinInfo {
+        int xLevel;
+        int xParent;
+        int yLevel;
+        int yParent;
+
+        public boolean isCousins() {
+            return xLevel == yLevel && xParent != yParent;
+        }
+    }
+
+    public boolean isCousins(TreeNode root, int x, int y) {
+        if (root == null) {
+            return false;
+        }
+        CousinInfo cousinInfo = new CousinInfo();
+        getLevel(1, root.left, x, y, root.val, cousinInfo);
+        getLevel(1, root.right, x, y, root.val, cousinInfo);
+        return cousinInfo.isCousins();
+    }
+
+    public void getLevel(int level, TreeNode root, int x, int y, int parent,CousinInfo cousinInfo) {
+        if (root == null) {
+            return;
+        }
+
+        if (root.val == x) {
+            cousinInfo.xLevel = level;
+            cousinInfo.xParent = parent;
+        } else if (root.val == y) {
+            cousinInfo.yLevel = level;
+            cousinInfo.yParent = parent;
+        }
+
+        getLevel(level+1, root.left, x, y, root.val, cousinInfo);
+        getLevel(level+1, root.right, x, y, root.val, cousinInfo);
     }
 
     public int findTilt(TreeNode root) {
