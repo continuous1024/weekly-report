@@ -17,6 +17,39 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    int max = 0;
+    public int diameterOfBinaryTreeOffice(TreeNode root) {
+        max = 1;
+        depth(root);
+        return max - 1;
+    }
+
+    public int depth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int l = depth(root.left);
+        int r = depth(root.right);
+        max = Math.max(l + r + 1, max);
+        return Math.max(l, r) + 1;
+    }
+
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int rootDiameter = maxDepth(root.left) + maxDepth(root.right) + 1;
+        if (rootDiameter > max) {
+            max = rootDiameter;
+        }
+
+        diameterOfBinaryTree(root.left);
+        diameterOfBinaryTree(root.right);
+        return max - 1;
+    }
+
     public TreeNode trimBSTOfficial(TreeNode root, int L, int R) {
         if (root == null) {
             return root;
