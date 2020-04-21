@@ -17,6 +17,192 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    int maxWidth = 0;
+    Map<Integer, Integer> left;
+    public int widthOfBinaryTree(TreeNode root) {
+        left = new HashMap<>();
+        dfs(root, 0, 1);
+        return maxWidth;
+    }
+
+    public void dfs(TreeNode root, int level, int pos) {
+        if (root == null) {
+            return;
+        }
+        left.putIfAbsent(level, pos);
+        maxWidth = Math.max(maxWidth, pos - left.get(level) + 1);
+        dfs(root.left, level + 1, pos * 2);
+        dfs(root.right, level + 1, pos * 2 + 1);
+    }
+
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return constructMaximumBinaryTree(nums, 0, nums.length - 1);
+    }
+
+    public TreeNode constructMaximumBinaryTree(int[] nums, int l, int r) {
+        if (nums.length == 0) {
+            return null;
+        }
+
+        if (l > r) {
+            return null;
+        }
+
+        int index = -1;
+        int max = -1;
+        for (int i = l; i <= r; i++) {
+            if (nums[i] > max) {
+                index = i;
+                max = nums[i];
+            }
+        }
+
+        TreeNode root = new TreeNode(nums[index]);
+        root.left = constructMaximumBinaryTree(nums, l, index - 1);
+        root.right = constructMaximumBinaryTree(nums, index + 1, r);
+        return root;
+    }
+
+    public List<List<String>> printTree(TreeNode root) {
+        int depth = maxDepth(root);
+        int columns = (1 << depth) - 1;
+        List<List<String>> result = new ArrayList<>();
+        printLevelTree(0, 0, columns, columns, root, result);
+        return result;
+    }
+
+    public void printLevelTree(int level, int l,  int r, int columns, TreeNode root, List<List<String>> result) {
+        if (root == null) {
+            return;
+        }
+
+        if (level == result.size()) {
+            List<String> row = new ArrayList<>();
+            for (int i = 0; i < columns; i++) {
+                row.add("");
+            }
+            result.add(row);
+        }
+
+        int index = (l + r) / 2;
+        result.get(level).set(index, root.val + "");
+
+        printLevelTree(level + 1, l, index, columns, root.left, result);
+        printLevelTree(level + 1, index + 1, r, columns, root.right, result);
+    }
+
+    public boolean validateBinaryTreeNodesBFS(int n, int[] leftChild, int[] rightChild) {
+        int[] indeg = new int[n];
+        for (int i = 0; i < n; i++) {
+            indeg[i] = 0;
+        }
+
+        for (int item : leftChild) {
+            if (item != -1) {
+                indeg[item]++;
+            }
+        }
+
+        for (int value : rightChild) {
+            if (value != -1) {
+                indeg[value]++;
+            }
+        }
+
+        int root = -1;
+        for (int  i = 0; i < n; i++) {
+            if (indeg[i] == 0) {
+                root = i;
+                break;
+            }
+        }
+
+        if (root == -1) {
+            return false;
+        }
+
+        LinkedList<Integer> queue = new LinkedList<>();
+        Set<Integer> seen = new HashSet<>();
+        seen.add(root);
+        queue.offer(root);
+        while(!queue.isEmpty()) {
+            int node = queue.poll();
+            if (leftChild[node] != -1) {
+                if (seen.contains(leftChild[node])) {
+                    return false;
+                }
+
+                seen.add(leftChild[node]);
+                queue.offer(leftChild[node]);
+            }
+            if (rightChild[node] != -1) {
+                if (seen.contains(rightChild[node])) {
+                    return false;
+                }
+
+                seen.add(rightChild[node]);
+                queue.offer(rightChild[node]);
+            }
+        }
+        return seen.size() == n;
+    }
+
+    public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+        int[] indeg = new int[n];
+        for (int i = 0; i < n; i++) {
+            indeg[i] = 0;
+        }
+
+        for (int item : leftChild) {
+            if (item != -1) {
+                indeg[item]++;
+            }
+        }
+
+        for (int value : rightChild) {
+            if (value != -1) {
+                indeg[value]++;
+            }
+        }
+
+        int root = -1;
+        for (int  i = 0; i < n; i++) {
+            if (indeg[i] == 0) {
+                root = i;
+                break;
+            }
+        }
+
+        if (root == -1) {
+            return false;
+        }
+
+        LinkedList<Integer> stack = new LinkedList<>();
+        Set<Integer> seen = new HashSet<>();
+        seen.add(root);
+        stack.push(root);
+        while(!stack.isEmpty()) {
+            int node = stack.pop();
+            if (leftChild[node] != -1) {
+                if (seen.contains(leftChild[node])) {
+                    return false;
+                }
+
+                seen.add(leftChild[node]);
+                stack.push(leftChild[node]);
+            }
+            if (rightChild[node] != -1) {
+                if (seen.contains(rightChild[node])) {
+                    return false;
+                }
+
+                seen.add(rightChild[node]);
+                stack.push(rightChild[node]);
+            }
+        }
+        return seen.size() == n;
+    }
+
     int max = 0;
     public int diameterOfBinaryTreeOffice(TreeNode root) {
         max = 1;
@@ -354,6 +540,7 @@ public class TreeSolution {
 
         TreeNode root = new TreeNode(preorder[preStart]);
         int index = 0;
+        // 通过index -inStart可以确定左子树的节点个数，从而找到可以在先序遍历中找到右子树的范围。
         for (int i = inStart; i <= inEnd; i++) {
             if (inorder[i] == preorder[preStart]) {
                 index = i;

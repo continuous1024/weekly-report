@@ -1,5 +1,8 @@
 # weekly-report
 每周报告，每周一篇文章以及相应代码
+## Java容器
+- [] 模块名称: Collection
+<br/>[Java容器基础知识整理]
 ## Java事件机制研究
 - [x] 模块名称: event 
 <br/>[Java事件机制研究](https://www.toutiao.com/i6791992140667814414/)
