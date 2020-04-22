@@ -17,6 +17,26 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> rightView = new ArrayList<>();
+        rightSideView(root, 0, rightView);
+        return rightView;
+    }
+
+    public void rightSideView(TreeNode root, int level, List<Integer> rightView) {
+        if (root == null) {
+            return;
+        }
+
+        if (level == rightView.size()) {
+            rightView.add(root.val);
+        }
+
+        rightView.set(level, root.val);
+        rightSideView(root.left, level + 1, rightView);
+        rightSideView(root.right, level + 1, rightView);
+    }
+
     int maxWidth = 0;
     Map<Integer, Integer> left;
     public int widthOfBinaryTree(TreeNode root) {
