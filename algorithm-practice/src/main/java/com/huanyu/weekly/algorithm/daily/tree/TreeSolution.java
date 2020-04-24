@@ -17,6 +17,60 @@ public class TreeSolution {
       TreeNode(int x) { val = x; }
     }
 
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        if (root1 == null && root2 == null) {
+            return true;
+        }
+
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+
+        return root1.val == root2.val &&
+                ((flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left))
+                        || flipEquiv(root1.left, root2.left) && flipEquiv(root1.right , root2.right));
+    }
+
+    public List<Integer> pathInZigZagTree(int label) {
+        List<Integer>  pathList = new ArrayList<>();
+        int depth = (int)(Math.log(label) / Math.log(2));
+        while (label > 0) {
+            pathList.add(label);
+            label = (2 << depth) - 1 - label + (2 << (depth - 1));
+            label = label / 2;
+            depth = depth - 1;
+        }
+        Collections.reverse(pathList);
+        return pathList;
+    }
+
+    public List<Integer> rightSideViewQueue(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+
+                if (i == size - 1) {
+                    result.add(node.val);
+                }
+            }
+        }
+        return result;
+    }
+
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> rightView = new ArrayList<>();
         rightSideView(root, 0, rightView);
