@@ -39,6 +39,7 @@
 - [ ] 模块名称: mongodb-practice
 ## 消息队列实战
 - [ ] 模块名称: mq-practice
+<br/>[消息队列基础知识整理](https://www.toutiao.com/i6807977631112233486/)
 ## ElasticSearch实战梳理
 - [ ] 模块名称: elasticsearch-practice
 ## 注册中心实战
