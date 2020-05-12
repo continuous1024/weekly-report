@@ -1,5 +1,6 @@
 package com.huanyu.weekly.collection;
 
+
 public class TypeLearn {
     public static void main(String[] args) {
     	Integer a = 1;
